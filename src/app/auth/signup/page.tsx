@@ -1,3 +1,9 @@
+import { SignupForm } from '@/features/auth/components/SignupForm'
+
 export default async function SignupPage() {
-	return <div>signup</div>
+	return (
+		<div>
+			<SignupForm />
+		</div>
+	)
 }
