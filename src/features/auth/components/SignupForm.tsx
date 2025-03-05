@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export function SignupForm() {
 	return (
-		<div className='flex flex-col items-center mx-auto gap-5 max-w-[28rem]'>
+		<div className='flex flex-col items-center mx-auto gap-5 max-w-[28rem] '>
 			<Heading>Sign up</Heading>
 			<form className='w-full flex flex-col gap-4'>
 				<Field>
