@@ -1,5 +1,6 @@
 'use client'
 
+import { signup } from '@/services/auth/signupService'
 import { Button } from '@/ui/form/Button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
@@ -8,10 +9,14 @@ import { Label } from '@/ui/form/Label'
 import { Heading } from '@/ui/typography/Heading'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { SignupDto, SignupDtoType } from '../dtos/signup.dto'
 
 export function SignupForm() {
+	const [loading, setLoading] = useState(false)
+	const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
 	const {
 		register,
 		handleSubmit,
@@ -26,8 +31,18 @@ export function SignupForm() {
 		},
 	})
 
-	const onSubmit = (data: SignupDtoType) => {
-		console.log(data)
+	const onSubmit = async (data: SignupDtoType) => {
+		setLoading(true)
+		setErrorMessage(null)
+
+		try {
+			await signup(data)
+			console.log(data)
+		} catch (error) {
+			setErrorMessage(String(error))
+		} finally {
+			setLoading(false)
+		}
 	}
 
 	return (
@@ -52,7 +67,7 @@ export function SignupForm() {
 					<Input type='password' {...register('confirmPassword')} />
 					<Error error={errors.confirmPassword} />
 				</Field>
-				<Button>Sign Up</Button>
+				<Button loading={loading}>Sign Up</Button>
 			</form>
 			<p className='text-sm'>
 				Already have an account?{' '}
