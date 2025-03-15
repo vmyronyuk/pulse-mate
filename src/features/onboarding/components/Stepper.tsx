@@ -15,7 +15,11 @@ const Page2 = dynamic(
 	() => import('@/features/onboarding/components/pages/Page2')
 )
 
-const steps = [Intro, Page2]
+const Page3 = dynamic(
+	() => import('@/features/onboarding/components/pages/Page3')
+)
+
+const steps = [Intro, Page2, Page3]
 
 export function Stepper({ currentStep }: StepperProps) {
 	const idx = currentStep - 1
