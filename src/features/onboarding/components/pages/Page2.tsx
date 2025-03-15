@@ -1,18 +1,15 @@
 import { Button } from '@/ui/form/Button'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
-import { HeartPulse } from 'lucide-react'
 import { trackItems } from '../../business/trackItems'
 import { useNextStep } from '../../hooks/useNextStep'
+import { OnboardingWrapper } from '../OnboardingWrapper'
 
 export default function Page2() {
 	const { nextStep } = useNextStep(2)
 
 	return (
-		<div className='flex flex-col gap-3 text-gray-300 text-center'>
-			<div className='flex justify-center'>
-				<HeartPulse className='text-red-400 w-12 h-12' />
-			</div>
+		<OnboardingWrapper>
 			<Heading>What You Can Track</Heading>
 			<Paragraph>With Pulse Mate, you can log and track</Paragraph>
 			<ul className='flex flex-col gap-2 items-center mt-2'>
@@ -29,6 +26,6 @@ export default function Page2() {
 			<Button className='mt-2' onClick={nextStep}>
 				Next
 			</Button>
-		</div>
+		</OnboardingWrapper>
 	)
 }
