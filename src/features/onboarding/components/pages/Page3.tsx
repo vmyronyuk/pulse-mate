@@ -1,57 +1,147 @@
+'use client'
+
 import { Button } from '@/ui/form/Button'
 import { CustomSelect } from '@/ui/form/CustomSelect'
+import { Error } from '@/ui/form/Error'
+import { Field } from '@/ui/form/Field'
 import { Input } from '@/ui/form/Input'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Controller, useForm } from 'react-hook-form'
 import {
 	activityLevelOptions,
 	genderOptions,
 	healthGoalOptions,
 } from '../../business/personal-information'
+import {
+	PersonalInformationDto,
+	PersonalInformationDtoType,
+} from '../../dtos/personal-information.dto'
 import { useNextStep } from '../../hooks/useNextStep'
 import { OnboardingWrapper } from '../OnboardingWrapper'
+
 export default function Page3() {
 	const { nextStep } = useNextStep(3)
-	const onClick = () => {
-		nextStep()
+	const onClick = (data: PersonalInformationDtoType) => {
+		console.log(data)
+		// nextStep()
 	}
+
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+		control,
+	} = useForm<PersonalInformationDtoType>({
+		resolver: zodResolver(PersonalInformationDto),
+		mode: 'onChange',
+	})
+
 	return (
 		<OnboardingWrapper>
 			<Heading>Let’s personalize your experience!</Heading>
 			<Paragraph>
 				Tell us about yourself to get the most out of Pulse Mate.
 			</Paragraph>
-			<form className='flex flex-col gap-3'>
-				<div className='flex gap-3 sm:flex-row flex-col'>
-					<Input placeholder='First Name' className='w-full' />
-					<Input placeholder='Last Name' className='w-full' />
+			<form
+				className='flex flex-col gap-3 text-left'
+				onSubmit={handleSubmit(onClick)}
+			>
+				<div className='flex gap-3 sm:flex-row flex-col text-left '>
+					<Field>
+						<Input
+							placeholder='First Name'
+							{...register('firstName')}
+							className='w-full'
+						/>
+						<Error error={errors.firstName} />
+					</Field>
+					<Field>
+						<Input
+							placeholder='Last Name'
+							{...register('lastName')}
+							className='w-full'
+						/>
+						<Error error={errors.lastName} />
+					</Field>
 				</div>
-				<Input placeholder='Date of Birth' className='w-full' />
-				<div className='flex gap-3 sm:flex-row flex-col'>
-					<Input placeholder='Height' className='w-full' />
-					<Input placeholder='Weight' className='w-full' />
-				</div>
-				<CustomSelect
-					placeholder='Gender'
-					options={genderOptions}
-					onChange={() => {}}
-					value=''
-				/>
-				<div className='flex gap-3 sm:flex-row flex-col'>
-					<CustomSelect
-						placeholder='Activity Level'
-						options={activityLevelOptions}
-						onChange={() => {}}
-						value=''
+				<Field>
+					<Input
+						placeholder='Date of Birth'
+						className='w-full'
+						{...register('dateOfBirth')}
 					/>
-					<CustomSelect
-						placeholder='Health Goal'
-						options={healthGoalOptions}
-						onChange={() => {}}
-						value=''
-					/>
+					<Error error={errors.dateOfBirth} />
+				</Field>
+				<div className='flex gap-3 sm:flex-row flex-col text-left w-full'>
+					<Field>
+						<Input
+							placeholder='Height'
+							className='w-full'
+							{...register('height')}
+						/>
+						<Error error={errors.height} />
+					</Field>
+					<Field>
+						<Input
+							placeholder='Weight'
+							{...register('weight')}
+							className='w-full'
+						/>
+						<Error error={errors.weight} />
+					</Field>
 				</div>
-				<Button onClick={onClick}>Fill Details</Button>
+				<Field>
+					<Controller
+						name='gender'
+						control={control}
+						rules={{ required: true }}
+						render={({ field: { value, onChange } }) => (
+							<CustomSelect
+								placeholder='Gender'
+								options={genderOptions}
+								onChange={onChange}
+								value={value}
+							/>
+						)}
+					/>
+					<Error error={errors.gender} />
+				</Field>
+				<div className='flex gap-3 sm:flex-row flex-col'>
+					<Field>
+						<Controller
+							name='activityLevel'
+							control={control}
+							rules={{ required: true }}
+							render={({ field: { value, onChange } }) => (
+								<CustomSelect
+									placeholder='Activity Level'
+									options={activityLevelOptions}
+									onChange={onChange}
+									value={value}
+								/>
+							)}
+						/>
+						<Error error={errors.activityLevel} />
+					</Field>
+					<Field>
+						<Controller
+							name='healthGoal'
+							control={control}
+							render={({ field: { value, onChange } }) => (
+								<CustomSelect
+									placeholder='Health Goal'
+									options={healthGoalOptions}
+									onChange={onChange}
+									value={value}
+								/>
+							)}
+						/>
+						<Error error={errors.healthGoal} />
+					</Field>
+				</div>
+				<Button type='submit'>Fill Details</Button>
 			</form>
 		</OnboardingWrapper>
 	)
