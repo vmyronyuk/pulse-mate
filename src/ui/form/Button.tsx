@@ -26,7 +26,7 @@ export const Button = ({
 			)}
 			onClick={onClick}
 		>
-			{loading && <LoaderCircle className='animate-spin' />}
+			{loading && <LoaderCircle className='animate-spin text-gray-200' />}
 			{children}
 		</button>
 	)

@@ -1,5 +1,6 @@
 'use client'
 
+import { savePersonalInformation } from '@/services/onboarding/page3'
 import { Button } from '@/ui/form/Button'
 import { CustomSelect } from '@/ui/form/CustomSelect'
 import { Error } from '@/ui/form/Error'
@@ -8,6 +9,7 @@ import { Input } from '@/ui/form/Input'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
 	activityLevelOptions,
@@ -22,10 +24,19 @@ import { useNextStep } from '../../hooks/useNextStep'
 import { OnboardingWrapper } from '../OnboardingWrapper'
 
 export default function Page3() {
+	const [loading, setLoading] = useState(false)
+
 	const { nextStep } = useNextStep(3)
-	const onClick = (data: PersonalInformationDtoType) => {
-		console.log(data)
-		// nextStep()
+	const onClick = async (data: PersonalInformationDtoType) => {
+		try {
+			setLoading(true)
+			await savePersonalInformation(data)
+			nextStep()
+		} catch (error) {
+			console.log('page 3', error)
+		} finally {
+			setLoading(false)
+		}
 	}
 
 	const {
@@ -141,7 +152,9 @@ export default function Page3() {
 						<Error error={errors.healthGoal} />
 					</Field>
 				</div>
-				<Button type='submit'>Fill Details</Button>
+				<Button type='submit' loading={loading}>
+					Fill Details
+				</Button>
 			</form>
 		</OnboardingWrapper>
 	)
