@@ -2,6 +2,7 @@ import {
 	CurrentHealthDataDto,
 	CurrentHealthDataDtoType,
 } from '@/features/onboarding/dtos/current-health.dto'
+import { saveCurrentHealthData } from '@/services/onboarding/page4'
 import { Button } from '@/ui/form/Button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
@@ -9,11 +10,13 @@ import { Input } from '@/ui/form/Input'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNextStep } from '../../hooks/useNextStep'
 import { OnboardingWrapper } from '../OnboardingWrapper'
-
 export default function Page4() {
+	const [loading, setLoading] = useState(false)
+
 	const { nextStep } = useNextStep(4)
 	const {
 		register,
@@ -24,8 +27,14 @@ export default function Page4() {
 		mode: 'onChange',
 	})
 
-	const onSubmit = (data: CurrentHealthDataDtoType) => {
-		console.log(data)
+	const onSubmit = async (data: CurrentHealthDataDtoType) => {
+		try {
+			setLoading(true)
+			await saveCurrentHealthData(data)
+			nextStep()
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	return (
@@ -81,7 +90,9 @@ export default function Page4() {
 				<Paragraph className='text-center text-base font-medium text-foreground'>
 					Stay consistent to see real progress!
 				</Paragraph>
-				<Button type='submit'>Continue</Button>
+				<Button type='submit' loading={loading}>
+					Continue
+				</Button>
 			</form>
 		</OnboardingWrapper>
 	)
