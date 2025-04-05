@@ -3,10 +3,11 @@ import {
 	CurrentHealthDataDtoType,
 } from '@/features/onboarding/dtos/current-health.dto'
 import { saveCurrentHealthData } from '@/services/onboarding/page4'
-import { Button } from '@/ui/form/Button'
+import { Button } from '@/ui/button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
 import { Input } from '@/ui/form/Input'
+import { Label } from '@/ui/form/Label'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -48,43 +49,41 @@ export default function Page4() {
 				className='flex flex-col gap-3 text-left'
 				onSubmit={handleSubmit(onSubmit)}
 			>
+				<div className='grid grid-cols-2 gap-3'>
+					<Field>
+						<Label>Systolic (mmHg)</Label>
+						<Input placeholder='120' {...register('bloodPressure')} />
+						<Error error={errors.bloodPressure} />
+					</Field>
+					<Field>
+						<Label>Diastolic (mmHg)</Label>
+						<Input placeholder='80' {...register('bloodPressure')} />
+						<Error error={errors.bloodPressure} />
+					</Field>
+				</div>
 				<Field>
-					<Input
-						placeholder='Blood Pressure 📊 (e.g., 120/80 mmHg)'
-						{...register('bloodPressure')}
-					/>
-					<Error error={errors.bloodPressure} />
-				</Field>
-				<Field>
-					<Input placeholder='Heart Rate 💓 (BPM)' {...register('heartRate')} />
+					<Label>Heart Rate (BPM)</Label>
+					<Input placeholder='72' {...register('heartRate')} />
 					<Error error={errors.heartRate} />
 				</Field>
 				<Field>
-					<Input
-						placeholder='Current Weight 💪'
-						{...register('currentWeight')}
-					/>
+					<Label>Current Weight (kg)</Label>
+					<Input placeholder='80' {...register('currentWeight')} />
 					<Error error={errors.currentWeight} />
 				</Field>
 				<Field>
-					<Input
-						placeholder='Waters intake today 💧'
-						{...register('waterIntake')}
-					/>
+					<Label>Water Intake today (L)</Label>
+					<Input placeholder='1.8' {...register('waterIntake')} />
 					<Error error={errors.waterIntake} />
 				</Field>
 				<Field>
-					<Input
-						placeholder='Hours slept last night 💤'
-						{...register('sleepHours')}
-					/>
+					<Label>Hours slept last night</Label>
+					<Input placeholder='7.4' {...register('sleepHours')} />
 					<Error error={errors.sleepHours} />
 				</Field>
 				<Field>
-					<Input
-						placeholder='Blood sugar level 🩸 (Optional)'
-						{...register('bloodSugar')}
-					/>
+					<Label>Steps</Label>
+					<Input placeholder='7235' {...register('bloodSugar')} />
 					<Error error={errors.bloodSugar} />
 				</Field>
 				<Paragraph className='text-center text-base font-medium text-foreground'>

@@ -1,7 +1,7 @@
 'use client'
 
 import { signup } from '@/services/auth/signupService'
-import { Button } from '@/ui/form/Button'
+import { Button } from '@/ui/button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
 import { Input } from '@/ui/form/Input'
@@ -9,6 +9,7 @@ import { Label } from '@/ui/form/Label'
 import { Heading } from '@/ui/typography/Heading'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { SignupDto, SignupDtoType } from '../dtos/signup.dto'
@@ -37,7 +38,7 @@ export function SignupForm() {
 
 		try {
 			await signup(data)
-			console.log(data)
+			redirect('/dashboard')
 		} catch (error) {
 			setErrorMessage(String(error))
 		} finally {
@@ -54,24 +55,36 @@ export function SignupForm() {
 			>
 				<Field>
 					<Label>Email</Label>
-					<Input type='email' {...register('email')} />
+					<Input
+						type='email'
+						{...register('email')}
+						placeholder='example@gmail.com'
+					/>
 					<Error error={errors.email} />
 				</Field>
 				<Field>
 					<Label>Password</Label>
-					<Input type='password' {...register('password')} />
+					<Input
+						type='password'
+						{...register('password')}
+						placeholder='Password'
+					/>
 					<Error error={errors.password} />
 				</Field>
 				<Field>
 					<Label>Confirm Password</Label>
-					<Input type='password' {...register('confirmPassword')} />
+					<Input
+						type='password'
+						{...register('confirmPassword')}
+						placeholder='Confirm Password'
+					/>
 					<Error error={errors.confirmPassword} />
 				</Field>
 				<Button loading={loading}>Sign Up</Button>
 			</form>
 			<p className='text-sm'>
 				Already have an account?{' '}
-				<Link href='/auth/signin' className='text-red-400 underline'>
+				<Link href='/auth/signin' className='text-primary underline'>
 					Sign in
 				</Link>
 			</p>

@@ -1,4 +1,4 @@
-import { Button } from '@/ui/form/Button'
+import { Button } from '@/ui/button'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
 import { trackItems } from '../../business/trackItems'
@@ -20,7 +20,7 @@ export default function Page2() {
 					</li>
 				))}
 			</ul>
-			<Paragraph className='border-b border-red-400 my-1'>
+			<Paragraph className='border-b border-primary my-1'>
 				Start tracking and see your progress over time!
 			</Paragraph>
 			<Button className='mt-2' onClick={nextStep}>

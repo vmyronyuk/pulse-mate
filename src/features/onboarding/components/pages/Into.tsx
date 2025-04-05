@@ -1,4 +1,4 @@
-import { Button } from '@/ui/form/Button'
+import { Button } from '@/ui/button'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
 import { Check } from 'lucide-react'
@@ -31,5 +31,5 @@ export default function Into() {
 }
 
 const CheckIcon = () => {
-	return <Check className='w-4 h-4 text-white' />
+	return <Check className='w-5 h-5 text-primary' />
 }

@@ -7,6 +7,8 @@ type LabelProps = {
 
 export const Label = ({ children, className }: LabelProps) => {
 	return (
-		<label className={cn('text-base font-medium', className)}>{children}</label>
+		<label className={cn('text-base font-semibold', className)}>
+			{children}
+		</label>
 	)
 }
