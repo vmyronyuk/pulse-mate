@@ -1,4 +1,4 @@
-import { Button } from '@/ui/form/Button'
+import { Button } from '@/ui/button'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
 import { redirect } from 'next/navigation'

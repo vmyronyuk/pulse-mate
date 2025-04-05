@@ -1,7 +1,7 @@
 'use client'
 
 import { savePersonalInformation } from '@/services/onboarding/page3'
-import { Button } from '@/ui/form/Button'
+import { Button } from '@/ui/button'
 import { CustomSelect } from '@/ui/form/CustomSelect'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
@@ -56,7 +56,7 @@ export default function Page3() {
 				Tell us about yourself to get the most out of Pulse Mate.
 			</Paragraph>
 			<form
-				className='flex flex-col gap-3 text-left'
+				className='flex flex-col gap-3 text-left px-1'
 				onSubmit={handleSubmit(onClick)}
 			>
 				<div className='flex gap-3 sm:flex-row flex-col text-left '>

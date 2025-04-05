@@ -3,7 +3,7 @@ import { Heart, User } from 'lucide-react'
 
 export function Header() {
 	return (
-		<header className='flex justify-between items-center py-5 border-b  px-8'>
+		<header className='flex justify-between items-center py-5 border-b px-4 sm:px-8'>
 			<div className='flex items-center gap-3'>
 				<Heart className='w-8 h-8 text-primary animate-pulse' />
 				<span className='font-semibold text-lg'>Pulse Mate</span>

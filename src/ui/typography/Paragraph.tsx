@@ -6,5 +6,5 @@ type ParagraphProps = {
 }
 
 export const Paragraph = ({ children, className }: ParagraphProps) => {
-	return <p className={cn('text-sm text-gray-300', className)}>{children}</p>
+	return <p className={cn('text-sm text-foreground', className)}>{children}</p>
 }

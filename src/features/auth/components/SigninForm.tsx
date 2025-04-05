@@ -1,7 +1,7 @@
 'use client'
 
 import { signin } from '@/services/auth/signinService'
-import { Button } from '@/ui/form/Button'
+import { Button } from '@/ui/button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
 import { Input } from '@/ui/form/Input'
@@ -75,7 +75,7 @@ export function SigninForm() {
 			</form>
 			<p className='text-sm'>
 				Don&apos;t have an account?{' '}
-				<Link href='/auth/signup' className='text-red-400 underline'>
+				<Link href='/auth/signup' className='text-primary underline'>
 					Sign up
 				</Link>
 			</p>
