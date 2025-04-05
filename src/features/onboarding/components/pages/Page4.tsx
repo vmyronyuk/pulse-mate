@@ -52,13 +52,13 @@ export default function Page4() {
 				<div className='grid grid-cols-2 gap-3'>
 					<Field>
 						<Label>Systolic (mmHg)</Label>
-						<Input placeholder='120' {...register('bloodPressure')} />
-						<Error error={errors.bloodPressure} />
+						<Input placeholder='120' {...register('bloodPressure.systolic')} />
+						<Error error={errors.bloodPressure?.systolic} />
 					</Field>
 					<Field>
 						<Label>Diastolic (mmHg)</Label>
-						<Input placeholder='80' {...register('bloodPressure')} />
-						<Error error={errors.bloodPressure} />
+						<Input placeholder='80' {...register('bloodPressure.diastolic')} />
+						<Error error={errors.bloodPressure?.diastolic} />
 					</Field>
 				</div>
 				<Field>
@@ -83,8 +83,8 @@ export default function Page4() {
 				</Field>
 				<Field>
 					<Label>Steps</Label>
-					<Input placeholder='7235' {...register('bloodSugar')} />
-					<Error error={errors.bloodSugar} />
+					<Input placeholder='7235' {...register('steps')} />
+					<Error error={errors.steps} />
 				</Field>
 				<Paragraph className='text-center text-base font-medium text-foreground'>
 					Stay consistent to see real progress!

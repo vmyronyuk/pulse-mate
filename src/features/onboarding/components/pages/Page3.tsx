@@ -1,6 +1,5 @@
 'use client'
 
-import { savePersonalInformation } from '@/services/onboarding/page3'
 import { Button } from '@/ui/button'
 import { CustomSelect } from '@/ui/form/CustomSelect'
 import { Error } from '@/ui/form/Error'
@@ -11,6 +10,7 @@ import { Paragraph } from '@/ui/typography/Paragraph'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { savePersonalInformationOnboardingAction } from '../../actions/personal-information'
 import {
 	activityLevelOptions,
 	genderOptions,
@@ -18,7 +18,7 @@ import {
 } from '../../business/personal-information'
 import {
 	PersonalInformationDto,
-	PersonalInformationDtoType,
+	PersonalInformationDtoSchema,
 } from '../../dtos/personal-information.dto'
 import { useNextStep } from '../../hooks/useNextStep'
 import { OnboardingWrapper } from '../OnboardingWrapper'
@@ -27,10 +27,10 @@ export default function Page3() {
 	const [loading, setLoading] = useState(false)
 
 	const { nextStep } = useNextStep(3)
-	const onClick = async (data: PersonalInformationDtoType) => {
+	const onClick = async (data: PersonalInformationDto) => {
 		try {
 			setLoading(true)
-			await savePersonalInformation(data)
+			await savePersonalInformationOnboardingAction(data)
 			nextStep()
 		} catch (error) {
 			console.log('page 3', error)
@@ -44,8 +44,8 @@ export default function Page3() {
 		handleSubmit,
 		formState: { errors },
 		control,
-	} = useForm<PersonalInformationDtoType>({
-		resolver: zodResolver(PersonalInformationDto),
+	} = useForm<PersonalInformationDto>({
+		resolver: zodResolver(PersonalInformationDtoSchema),
 		mode: 'onChange',
 	})
 

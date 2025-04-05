@@ -9,10 +9,9 @@ import { Label } from '@/ui/form/Label'
 import { Heading } from '@/ui/typography/Heading'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { SigninDto, SigninDtoType } from '../dtos/signin.dto'
+import { SigninDto, SigninDtoSchema } from '../dtos/signin.dto'
 
 export function SigninForm() {
 	const [loading, setLoading] = useState(false)
@@ -22,19 +21,18 @@ export function SigninForm() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<SigninDtoType>({
-		resolver: zodResolver(SigninDto),
+	} = useForm<SigninDto>({
+		resolver: zodResolver(SigninDtoSchema),
 		mode: 'onChange',
 		defaultValues: { email: '', password: '' },
 	})
 
-	const onSubmit = async (data: SigninDtoType) => {
+	const onSubmit = async (data: SigninDto) => {
 		setLoading(true)
 		setErrorMessage(null)
 
 		try {
 			await signin(data)
-			redirect('/dashboard')
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				setErrorMessage(String(error))

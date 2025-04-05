@@ -1,5 +1,3 @@
-import { redirect } from 'next/navigation'
-
-export default function MainOnboardingPage() {
-	redirect('/onboarding/1')
+export default async function MainOnboardingPage() {
+	return <div>123</div>
 }

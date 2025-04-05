@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const SignupDto = z
+export const SignupDtoSchema = z
 	.object({
 		email: z.string().email({ message: 'Invalid email' }),
 		password: z
@@ -18,4 +18,4 @@ export const SignupDto = z
 		}
 	})
 
-export type SignupDtoType = z.infer<typeof SignupDto>
+export type SignupDto = z.infer<typeof SignupDtoSchema>

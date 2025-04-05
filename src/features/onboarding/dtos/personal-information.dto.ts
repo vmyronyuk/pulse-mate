@@ -17,7 +17,7 @@ const healthGoalValues = [
 	'other',
 ] as const
 
-export const PersonalInformationDto = z.object({
+export const PersonalInformationDtoSchema = z.object({
 	firstName: z.string().min(1, 'First name is required'),
 	lastName: z.string().min(1, 'Last name is required'),
 	dateOfBirth: z
@@ -53,4 +53,6 @@ export const PersonalInformationDto = z.object({
 	}),
 })
 
-export type PersonalInformationDtoType = z.infer<typeof PersonalInformationDto>
+export type PersonalInformationDto = z.infer<
+	typeof PersonalInformationDtoSchema
+>

@@ -1,6 +1,5 @@
 'use client'
 
-import { signup } from '@/services/auth/signupService'
 import { Button } from '@/ui/button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
@@ -9,21 +8,20 @@ import { Label } from '@/ui/form/Label'
 import { Heading } from '@/ui/typography/Heading'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { SignupDto, SignupDtoType } from '../dtos/signup.dto'
+import { signupAction } from '../actions/signup'
+import { SignupDto, SignupDtoSchema } from '../dtos/signup.dto'
 
 export function SignupForm() {
 	const [loading, setLoading] = useState(false)
-	const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm<SignupDtoType>({
-		resolver: zodResolver(SignupDto),
+	} = useForm<SignupDto>({
+		resolver: zodResolver(SignupDtoSchema),
 		mode: 'onChange',
 		defaultValues: {
 			email: '',
@@ -32,15 +30,13 @@ export function SignupForm() {
 		},
 	})
 
-	const onSubmit = async (data: SignupDtoType) => {
+	const onSubmit = async (data: SignupDto) => {
 		setLoading(true)
-		setErrorMessage(null)
 
 		try {
-			await signup(data)
-			redirect('/dashboard')
+			await signupAction(data)
 		} catch (error) {
-			setErrorMessage(String(error))
+			console.log(error)
 		} finally {
 			setLoading(false)
 		}
