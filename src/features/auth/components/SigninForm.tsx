@@ -1,6 +1,5 @@
 'use client'
 
-import { signin } from '@/services/auth/signinService'
 import { Button } from '@/ui/button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
@@ -11,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { signinAction } from '../actions/signin'
 import { SigninDto, SigninDtoSchema } from '../dtos/signin.dto'
 
 export function SigninForm() {
@@ -32,7 +32,7 @@ export function SigninForm() {
 		setErrorMessage(null)
 
 		try {
-			await signin(data)
+			await signinAction(data)
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				setErrorMessage(String(error))
