@@ -2,7 +2,6 @@ import {
 	CurrentHealthDataDto,
 	CurrentHealthDataDtoType,
 } from '@/features/onboarding/dtos/current-health.dto'
-import { saveCurrentHealthData } from '@/services/onboarding/page4'
 import { Button } from '@/ui/button'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
@@ -31,7 +30,7 @@ export default function Page4() {
 	const onSubmit = async (data: CurrentHealthDataDtoType) => {
 		try {
 			setLoading(true)
-			await saveCurrentHealthData(data)
+			// await saveCurrentHealthData(data)
 			nextStep()
 		} catch (error) {
 			console.log(error)

@@ -1,6 +1,6 @@
 'use server'
 
-import { supabase } from '@/lib/supabaseClient'
+import { createClient } from '@/utils/supabase/server'
 import { unauthorized } from 'next/navigation'
 import {
 	PersonalInformationDto,
@@ -10,6 +10,8 @@ import {
 export const savePersonalInformationOnboardingAction = async (
 	dto: PersonalInformationDto
 ) => {
+	const supabase = await createClient()
+
 	const {
 		data: { user },
 	} = await supabase.auth.getUser()
@@ -17,9 +19,6 @@ export const savePersonalInformationOnboardingAction = async (
 	if (!user) {
 		unauthorized()
 	}
-
-	console.log(user)
-
 	const { data, error: parseError } =
 		PersonalInformationDtoSchema.safeParse(dto)
 
@@ -27,17 +26,22 @@ export const savePersonalInformationOnboardingAction = async (
 		throw parseError
 	}
 
+	const finalData = {
+		...data,
+		dateOfBirth: new Date(data.dateOfBirth),
+	}
+
 	const { error } = await supabase.from('users').upsert([
 		{
 			id: user.id,
-			first_name: data.firstName,
-			last_name: data.lastName,
-			date_of_birth: data.dateOfBirth,
-			height: data.height,
-			weight: data.weight,
-			gender: data.gender,
-			activity_level: data.activityLevel,
-			health_goal: data.healthGoal,
+			first_name: finalData.firstName,
+			last_name: finalData.lastName,
+			date_of_birth: finalData.dateOfBirth,
+			height: finalData.height,
+			weight: finalData.weight,
+			gender: finalData.gender,
+			activity_level: finalData.activityLevel,
+			health_goal: finalData.healthGoal,
 		},
 	])
 

@@ -20,28 +20,22 @@ const healthGoalValues = [
 export const PersonalInformationDtoSchema = z.object({
 	firstName: z.string().min(1, 'First name is required'),
 	lastName: z.string().min(1, 'Last name is required'),
-	dateOfBirth: z
-		.string()
-		.refine(
-			val => {
-				const regex = /^\d{2}\/\d{2}\/\d{4}$/
-				if (!regex.test(val)) return false
+	dateOfBirth: z.string().refine(
+		val => {
+			const regex = /^\d{2}\/\d{2}\/\d{4}$/
+			if (!regex.test(val)) return false
 
-				const [month, day, year] = val.split('/').map(Number)
-				const date = new Date(year, month - 1, day)
-
-				return (
-					date.getFullYear() === year &&
-					date.getMonth() === month - 1 &&
-					date.getDate() === day
-				)
-			},
-			{ message: 'Invalid date format (MM/DD/YYYY)' }
-		)
-		.transform(val => {
 			const [month, day, year] = val.split('/').map(Number)
-			return new Date(year, month - 1, day)
-		}),
+			const date = new Date(year, month - 1, day)
+
+			return (
+				date.getFullYear() === year &&
+				date.getMonth() === month - 1 &&
+				date.getDate() === day
+			)
+		},
+		{ message: 'Invalid date format (MM/DD/YYYY)' }
+	),
 	height: z.string().min(1, 'Height is required'),
 	weight: z.string().min(1, 'Weight is required'),
 	gender: z.enum(genderValues, { message: 'Gender is required' }),

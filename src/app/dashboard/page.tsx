@@ -1,7 +1,6 @@
 import { Card } from '@/features/dashboard/components/Card'
 import { HealthMetricsChart } from '@/features/dashboard/overview/components/Charts/HealhMetricChart'
 import { RecentReadings } from '@/features/dashboard/overview/components/Readings/RecentReadings'
-import { supabase } from '@/lib/supabaseClient'
 import { Button } from '@/ui/button'
 import { Field } from '@/ui/form/Field'
 import { Input } from '@/ui/form/Input'
@@ -20,11 +19,8 @@ import {
 	Plus,
 	Weight,
 } from 'lucide-react'
-import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
-	const user = await supabase.auth.getUser()
-	if (!user) redirect('/auth/signin')
 	return (
 		<div className='px-4 sm:px-12 mt-4 flex flex-col gap-6'>
 			<div className='flex flex-col gap-1'>

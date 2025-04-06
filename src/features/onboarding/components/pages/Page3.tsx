@@ -5,6 +5,7 @@ import { CustomSelect } from '@/ui/form/CustomSelect'
 import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
 import { Input } from '@/ui/form/Input'
+import { Label } from '@/ui/form/Label'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -61,16 +62,18 @@ export default function Page3() {
 			>
 				<div className='flex gap-3 sm:flex-row flex-col text-left '>
 					<Field>
+						<Label>First Name</Label>
 						<Input
-							placeholder='First Name'
+							placeholder='Jon'
 							{...register('firstName')}
 							className='w-full'
 						/>
 						<Error error={errors.firstName} />
 					</Field>
 					<Field>
+						<Label>Last Name</Label>
 						<Input
-							placeholder='Last Name'
+							placeholder='Doe'
 							{...register('lastName')}
 							className='w-full'
 						/>
@@ -78,8 +81,11 @@ export default function Page3() {
 					</Field>
 				</div>
 				<Field>
+					<Label>Date of Birth</Label>
 					<Input
-						placeholder='Date of Birth'
+						placeholder='MM/DD/YYYY'
+						pattern='[0-9]{2}/[0-9]{2}/[0-9]{4}'
+						maxLength={10}
 						className='w-full'
 						{...register('dateOfBirth')}
 					/>
@@ -87,16 +93,18 @@ export default function Page3() {
 				</Field>
 				<div className='flex gap-3 sm:flex-row flex-col text-left w-full'>
 					<Field>
+						<Label>Height</Label>
 						<Input
-							placeholder='Height'
+							placeholder='180'
 							className='w-full'
 							{...register('height')}
 						/>
 						<Error error={errors.height} />
 					</Field>
 					<Field>
+						<Label>Weight</Label>
 						<Input
-							placeholder='Weight'
+							placeholder='78'
 							{...register('weight')}
 							className='w-full'
 						/>
@@ -104,13 +112,14 @@ export default function Page3() {
 					</Field>
 				</div>
 				<Field>
+					<Label>Gender</Label>
 					<Controller
 						name='gender'
 						control={control}
 						rules={{ required: true }}
 						render={({ field: { value, onChange } }) => (
 							<CustomSelect
-								placeholder='Gender'
+								placeholder='Male'
 								options={genderOptions}
 								onChange={onChange}
 								value={value}
@@ -121,13 +130,14 @@ export default function Page3() {
 				</Field>
 				<div className='flex gap-3 sm:flex-row flex-col'>
 					<Field>
+						<Label>Activity Level</Label>
 						<Controller
 							name='activityLevel'
 							control={control}
 							rules={{ required: true }}
 							render={({ field: { value, onChange } }) => (
 								<CustomSelect
-									placeholder='Activity Level'
+									placeholder='Light'
 									options={activityLevelOptions}
 									onChange={onChange}
 									value={value}
@@ -137,12 +147,13 @@ export default function Page3() {
 						<Error error={errors.activityLevel} />
 					</Field>
 					<Field>
+						<Label>Health Goal</Label>
 						<Controller
 							name='healthGoal'
 							control={control}
 							render={({ field: { value, onChange } }) => (
 								<CustomSelect
-									placeholder='Health Goal'
+									placeholder='Improve Fitness'
 									options={healthGoalOptions}
 									onChange={onChange}
 									value={value}
