@@ -1,6 +1,12 @@
+import { NewHealthDataDto } from './new-health-data.dto'
+
 type BloodPressureDto = {
 	systolic: string
 	diastolic: string
+}
+
+export type UserHistoricDataDto = {
+	historic_health_data: NewHealthDataDto[]
 }
 
 export type UserDto = {
@@ -17,5 +23,7 @@ export type UserDto = {
 	waterIntake: string
 	sleepHours: string
 	steps?: string
+	historic_health_data: NewHealthDataDto[]
+	lastHealthUpdate: string
 	onboardingFinished: boolean
 }

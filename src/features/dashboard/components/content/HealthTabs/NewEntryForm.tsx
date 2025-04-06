@@ -1,57 +1,124 @@
+'use client'
+
+import { addNewEntryAction } from '@/features/dashboard/actions/add-new-entry'
+import {
+	NewHealthDataDto,
+	NewHealthDataDtoSchema,
+} from '@/features/dashboard/dtos/new-health-data.dto'
 import { Button } from '@/ui/button'
+import { DatePicker } from '@/ui/DatePicker'
+import { Error } from '@/ui/form/Error'
 import { Field } from '@/ui/form/Field'
 import { Input } from '@/ui/form/Input'
 import { Label } from '@/ui/form/Label'
 import { Textarea } from '@/ui/textarea'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 
 export function NewEntryForm() {
+	const [loading, setLoading] = useState(false)
+
+	const {
+		register,
+		handleSubmit,
+		control,
+		reset,
+		formState: { errors },
+	} = useForm<NewHealthDataDto>({
+		mode: 'onChange',
+		resolver: zodResolver(NewHealthDataDtoSchema),
+	})
+
+	const onSubmit = async (data: NewHealthDataDto) => {
+		setLoading(true)
+		await addNewEntryAction(data)
+		setLoading(false)
+		reset()
+	}
+
 	return (
 		<div className='border p-5 rounded-md border-secondary'>
 			<Heading level={2} variant='h2'>
 				Add New Health Data
 			</Heading>
 			<Paragraph>Manually enter your health measurements</Paragraph>
-			<form className='mt-4 flex flex-col gap-6'>
+			<form
+				className='mt-4 flex flex-col gap-6'
+				onSubmit={handleSubmit(onSubmit)}
+			>
 				<div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
 					<Field>
 						<Label>Date</Label>
-						<Input placeholder='April 3rd, 2025' />
+						<Controller
+							name='date'
+							control={control}
+							rules={{ required: true }}
+							render={({ field: { value, onChange } }) => (
+								<DatePicker value={value} onChange={onChange} />
+							)}
+						/>
+						<Error error={errors.date} />
 					</Field>
 					<Field>
 						<Label>Heart Rate (BPM)</Label>
-						<Input placeholder='72' />
+						<Input type='number' placeholder='72' {...register('heartRate')} />
 					</Field>
 				</div>
 				<div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
 					<div className='grid grid-cols-2 gap-3'>
 						<Field>
 							<Label>Systolic (mmHg)</Label>
-							<Input placeholder='80' />
+							<Input
+								type='number'
+								placeholder='120'
+								{...register('bloodPressure.systolic')}
+							/>
+							<Error error={errors.bloodPressure?.systolic} />
 						</Field>
 						<Field>
 							<Label>Diastolic (mmHg)</Label>
-							<Input placeholder='80' />
+							<Input
+								type='number'
+								placeholder='80'
+								{...register('bloodPressure.diastolic')}
+							/>
+							<Error error={errors.bloodPressure?.diastolic} />
 						</Field>
 					</div>
 					<Field>
 						<Label>Weight (kg)</Label>
-						<Input placeholder='80' />
+						<Input type='number' placeholder='80' {...register('weight')} />
+						<Error error={errors.weight} />
 					</Field>
 				</div>
 				<div className='grid grid-cols-1 gap-3'>
 					<Field>
 						<Label>Steps</Label>
-						<Input placeholder='7814' />
+						<Input type='number' placeholder='7814' {...register('steps')} />
+						<Error error={errors.steps} />
 					</Field>
 					<Field>
 						<Label>Water intake</Label>
-						<Input placeholder='1.8' />
+						<Input
+							type='number'
+							step={0.1}
+							placeholder='1.8'
+							{...register('waterIntake')}
+						/>
+						<Error error={errors.waterIntake} />
 					</Field>
 					<Field>
 						<Label>Sleep hours</Label>
-						<Input placeholder='7.1' />
+						<Input
+							type='number'
+							placeholder='7.1'
+							step={0.1}
+							{...register('sleepHours')}
+						/>
+						<Error error={errors.sleepHours} />
 					</Field>
 				</div>
 				<Field>
@@ -59,9 +126,17 @@ export function NewEntryForm() {
 					<Textarea
 						rows={3}
 						placeholder='Add any additional notes about your health'
+						{...register('notes')}
 					/>
+					<Error error={errors.notes} />
 				</Field>
-				<Button className='w-full sm:w-fit self-end'>Save health data</Button>
+				<Button
+					type='submit'
+					className='w-full sm:w-fit self-end'
+					loading={loading}
+				>
+					Save health data
+				</Button>
 			</form>
 		</div>
 	)
