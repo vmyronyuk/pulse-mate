@@ -1,13 +1,12 @@
 import { Button } from '@/ui/button'
 import { Heading } from '@/ui/typography/Heading'
 import { Paragraph } from '@/ui/typography/Paragraph'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import { OnboardingWrapper } from '../OnboardingWrapper'
 
 export default function Finish() {
-	const router = useRouter()
 	const onClick = () => {
-		router.push('/dashboard')
+		redirect('/dashboard')
 	}
 	return (
 		<OnboardingWrapper>

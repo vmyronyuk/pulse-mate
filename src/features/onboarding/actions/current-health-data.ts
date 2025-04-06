@@ -40,6 +40,19 @@ export const saveCurrentHealthDataAction = async (
 				steps: data.steps,
 				last_health_update: new Date().toISOString(),
 				onboarding_finished: true,
+				historic_health_data: [
+					{
+						date: new Date().toISOString(),
+						heartRate: data.heartRate,
+						bloodPressure: {
+							systolic: data.bloodPressure.systolic,
+							diastolic: data.bloodPressure.diastolic,
+						},
+						steps: data.steps,
+						waterIntake: data.waterIntake,
+						sleepHours: data.sleepHours,
+					},
+				],
 			},
 		])
 		.eq('id', user.id)
