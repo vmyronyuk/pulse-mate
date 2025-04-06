@@ -7,6 +7,7 @@ import { redirect, unauthorized } from 'next/navigation'
 export default async function DashboardPage() {
 	const user = await getCurrentUserData()
 	if (!user) unauthorized()
+	console.log(user)
 	if (!user.onboardingFinished) redirect('/onboarding')
 
 	return (
