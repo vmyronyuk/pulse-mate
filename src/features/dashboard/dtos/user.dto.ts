@@ -24,5 +24,6 @@ export type UserDto = {
 	sleepHours: string
 	steps?: string
 	historic_health_data: NewHealthDataDto[]
+	lastHealthUpdate: string
 	onboardingFinished: boolean
 }

@@ -41,7 +41,9 @@ export const getCurrentUserData = async (): Promise<UserDto | null> => {
 			sleepHours: data.sleep_hours,
 			waterIntake: data.water_intake,
 			steps: data.steps,
+			lastHealthUpdate: data.last_health_update,
 			onboardingFinished: data.onboarding_finished,
+			historic_health_data: data.historic_health_data,
 		}
 
 		return userDto

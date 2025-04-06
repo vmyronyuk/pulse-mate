@@ -38,6 +38,7 @@ export const saveCurrentHealthDataAction = async (
 				water_intake: data.waterIntake,
 				sleep_hours: data.sleepHours,
 				steps: data.steps,
+				last_health_update: new Date().toISOString(),
 				onboarding_finished: true,
 			},
 		])

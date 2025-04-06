@@ -16,7 +16,7 @@ export async function getUserHistoricData(): Promise<UserHistoricDataDto | null>
 
 	const { data: userHistoricHealthData, error: fetchError } = await supabase
 		.from('users')
-		.select('historic_health_data')
+		.select('historic_health_data, last_health_update')
 		.eq('id', user.id)
 		.single()
 
@@ -27,6 +27,8 @@ export async function getUserHistoricData(): Promise<UserHistoricDataDto | null>
 	if (userHistoricHealthData) {
 		const historicHealthData: NewHealthDataDto[] =
 			userHistoricHealthData.historic_health_data ?? []
+
+		const lastHealthUpdate = userHistoricHealthData.last_health_update
 
 		return {
 			historic_health_data: historicHealthData,
