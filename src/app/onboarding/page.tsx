@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation'
 
-export default function MainOnboardingPage() {
+export default async function MainOnboardingPage() {
 	redirect('/onboarding/1')
 }
