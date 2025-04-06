@@ -64,7 +64,10 @@ export function RecentReadings({
 							<Paragraph
 								className={`${isPage ? 'text-lg' : 'text-lg'} text-foreground`}
 							>
-								Weight: {reading.weight} kg
+								Weight:{' '}
+								<span className={`${isPage ? 'font-semibold text-base' : ''}`}>
+									{reading.weight} kg
+								</span>
 							</Paragraph>
 							<Weight
 								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-green-500`}
@@ -77,7 +80,10 @@ export function RecentReadings({
 							<Paragraph
 								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
 							>
-								Water intake: {reading.waterIntake} L
+								Water intake:{' '}
+								<span className={`${isPage ? 'font-semibold text-base' : ''}`}>
+									{reading.waterIntake} L
+								</span>
 							</Paragraph>
 							<GlassWater
 								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-sky-300`}
@@ -90,7 +96,10 @@ export function RecentReadings({
 							<Paragraph
 								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
 							>
-								Steps: {reading.steps}
+								Steps:{' '}
+								<span className={`${isPage ? 'font-semibold text-base' : ''}`}>
+									{reading.steps}
+								</span>
 							</Paragraph>
 							<Footprints
 								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-gray-300`}
@@ -103,7 +112,10 @@ export function RecentReadings({
 							<Paragraph
 								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
 							>
-								Heart rate: {reading.heartRate} bpm
+								Heart rate:{' '}
+								<span className={`${isPage ? 'font-semibold text-base' : ''}`}>
+									{reading.heartRate} bpm
+								</span>
 							</Paragraph>
 							<Heart
 								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-red-600`}
@@ -116,7 +128,10 @@ export function RecentReadings({
 							<Paragraph
 								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
 							>
-								Sleep hours: {reading.sleepHours}
+								Sleep hours:{' '}
+								<span className={`${isPage ? 'font-semibold text-base' : ''}`}>
+									{reading.sleepHours} h
+								</span>
 							</Paragraph>
 							<Moon
 								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-yellow-500`}
@@ -132,8 +147,13 @@ export function RecentReadings({
 										isPage ? 'text-lg' : 'text-sm'
 									} text-foreground`}
 								>
-									Blood pressure: {reading.bloodPressure.systolic}/
-									{reading.bloodPressure.diastolic} mmHg
+									Blood pressure:{' '}
+									<span
+										className={`${isPage ? 'font-semibold text-base' : ''}`}
+									>
+										{reading.bloodPressure.systolic}/
+										{reading.bloodPressure.diastolic} mmHg
+									</span>
 								</Paragraph>
 								<Activity
 									className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-blue-500`}
