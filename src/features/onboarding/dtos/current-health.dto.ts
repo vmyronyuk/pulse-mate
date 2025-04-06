@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const CurrentHealthDataDto = z.object({
+export const CurrentHealthDataDtoSchema = z.object({
 	bloodPressure: z.object({
 		systolic: z.string().min(1, 'Systolic is required'),
 		diastolic: z.string().min(1, 'Diastolic is required'),
@@ -12,4 +12,4 @@ export const CurrentHealthDataDto = z.object({
 	steps: z.string().optional(),
 })
 
-export type CurrentHealthDataDtoType = z.infer<typeof CurrentHealthDataDto>
+export type CurrentHealthDataDto = z.infer<typeof CurrentHealthDataDtoSchema>
