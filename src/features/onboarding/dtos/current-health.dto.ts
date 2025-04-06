@@ -6,7 +6,6 @@ export const CurrentHealthDataDtoSchema = z.object({
 		diastolic: z.string().min(1, 'Diastolic is required'),
 	}),
 	heartRate: z.string().min(1, 'Heart rate is required'),
-	currentWeight: z.string().min(1, 'Current weight is required'),
 	waterIntake: z.string().min(1, 'Water intake is required'),
 	sleepHours: z.string().min(1, 'Sleep hours are required'),
 	steps: z.string().optional(),
