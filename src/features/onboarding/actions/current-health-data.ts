@@ -35,7 +35,6 @@ export const saveCurrentHealthDataAction = async (
 					diastolic: data.bloodPressure.diastolic,
 				},
 				heart_rate: data.heartRate,
-				current_weight: data.currentWeight,
 				water_intake: data.waterIntake,
 				sleep_hours: data.sleepHours,
 				steps: data.steps,
