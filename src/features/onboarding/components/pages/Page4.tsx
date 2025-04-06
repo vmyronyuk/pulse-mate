@@ -75,15 +75,6 @@ export default function Page4() {
 					<Error error={errors.heartRate} />
 				</Field>
 				<Field>
-					<Label>Current Weight (kg)</Label>
-					<Input
-						placeholder='80'
-						{...register('currentWeight')}
-						type='number'
-					/>
-					<Error error={errors.currentWeight} />
-				</Field>
-				<Field>
 					<Label>Water Intake today (L)</Label>
 					<Input
 						placeholder='1.8'
