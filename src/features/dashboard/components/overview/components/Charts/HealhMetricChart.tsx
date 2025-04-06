@@ -36,7 +36,7 @@ export function HealthMetricsChart({
 
 			let chartData = {}
 
-			if (chartType === 'heartRate') {
+			if (chartType === 'heartRate' && entry.bloodPressure) {
 				chartData = {
 					date: formattedDate,
 					diastolic: entry.bloodPressure.diastolic,

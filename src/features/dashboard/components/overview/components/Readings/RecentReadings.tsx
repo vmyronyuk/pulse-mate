@@ -139,7 +139,8 @@ export function RecentReadings({
 						</div>
 					)}
 
-					{reading.bloodPressure.systolic &&
+					{reading.bloodPressure &&
+						reading.bloodPressure.systolic &&
 						reading.bloodPressure.diastolic && (
 							<div className='flex items-center gap-2'>
 								<Paragraph

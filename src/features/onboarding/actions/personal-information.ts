@@ -42,6 +42,12 @@ export const savePersonalInformationOnboardingAction = async (
 			gender: finalData.gender,
 			activity_level: finalData.activityLevel,
 			health_goal: finalData.healthGoal,
+			historic_health_data: [
+				{
+					date: new Date().toISOString(),
+					weight: finalData.weight,
+				},
+			],
 		},
 	])
 
