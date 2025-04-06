@@ -19,6 +19,8 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
 		}
 	}
 
+	const today = new Date()
+
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
@@ -37,6 +39,7 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
 				<Calendar
 					mode='single'
 					selected={value}
+					toDate={today}
 					onSelect={onChangeHandler}
 					initialFocus
 				/>

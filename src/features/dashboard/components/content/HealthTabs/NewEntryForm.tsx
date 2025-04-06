@@ -1,5 +1,6 @@
 'use client'
 
+import { addNewEntryAction } from '@/features/dashboard/actions/add-new-entry'
 import {
 	NewHealthDataDto,
 	NewHealthDataDtoSchema,
@@ -24,16 +25,18 @@ export function NewEntryForm() {
 		register,
 		handleSubmit,
 		control,
+		reset,
 		formState: { errors },
 	} = useForm<NewHealthDataDto>({
 		mode: 'onChange',
 		resolver: zodResolver(NewHealthDataDtoSchema),
 	})
 
-	const onSubmit = (data: NewHealthDataDto) => {
+	const onSubmit = async (data: NewHealthDataDto) => {
 		setLoading(true)
-		console.log(data)
+		await addNewEntryAction(data)
 		setLoading(false)
+		reset()
 	}
 
 	return (
@@ -70,7 +73,7 @@ export function NewEntryForm() {
 							<Label>Systolic (mmHg)</Label>
 							<Input
 								type='number'
-								placeholder='80'
+								placeholder='120'
 								{...register('bloodPressure.systolic')}
 							/>
 							<Error error={errors.bloodPressure?.systolic} />
@@ -112,6 +115,7 @@ export function NewEntryForm() {
 						<Input
 							type='number'
 							placeholder='7.1'
+							step={0.1}
 							{...register('sleepHours')}
 						/>
 						<Error error={errors.sleepHours} />
