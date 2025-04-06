@@ -20,7 +20,7 @@ export default async function DashboardPage() {
 					sleepHours={user.sleepHours}
 					steps={user.steps}
 				/>
-				<HealthTabs />
+				<HealthTabs historicData={user.historic_health_data} />
 			</div>
 		</div>
 	)
