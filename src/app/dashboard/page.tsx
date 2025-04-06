@@ -2,11 +2,12 @@ import { Greetings } from '@/features/dashboard/components/content/Greetings'
 import { HealthCards } from '@/features/dashboard/components/content/HealthCards'
 import { HealthTabs } from '@/features/dashboard/components/content/HealthTabs/HealthTabs'
 import { getCurrentUserData } from '@/features/dashboard/dal/current-user-data'
-import { unauthorized } from 'next/navigation'
+import { redirect, unauthorized } from 'next/navigation'
 
 export default async function DashboardPage() {
 	const user = await getCurrentUserData()
 	if (!user) unauthorized()
+	if (!user.onboardingFinished) redirect('/onboarding')
 
 	return (
 		<div className='px-4 sm:px-12 mt-4 flex flex-col gap-6'>

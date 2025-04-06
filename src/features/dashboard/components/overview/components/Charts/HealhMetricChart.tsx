@@ -1,5 +1,7 @@
 'use client'
 
+import { ChartType } from '@/features/dashboard/business/charts'
+import { UserDto } from '@/features/dashboard/dtos/user.dto'
 import { useEffect, useState } from 'react'
 import {
 	Line,
@@ -10,42 +12,64 @@ import {
 	YAxis,
 } from 'recharts'
 
-const generateData = () => {
-	const data = []
-	const now = new Date()
-
-	for (let i = 29; i >= 0; i--) {
-		const date = new Date(now)
-		date.setDate(date.getDate() - i)
-
-		const heartRate = Math.floor(Math.random() * 15) + 65
-		const systolic = Math.floor(Math.random() * 20) + 110
-		const diastolic = Math.floor(Math.random() * 15) + 70
-		const weight = Math.floor(Math.random() * 3 * 10) / 10 + 83
-		data.push({
-			date: date.toLocaleDateString('en-US', {
-				month: 'short',
-				day: 'numeric',
-			}),
-			heartRate,
-			bloodPressure: systolic,
-			weight,
-		})
-	}
-
-	return data
+type HealthMetricsChartProps = {
+	historicDate: UserDto['historic_health_data']
+	chartType?: ChartType
 }
 
-export function HealthMetricsChart() {
+export function HealthMetricsChart({
+	historicDate,
+	chartType,
+}: HealthMetricsChartProps) {
 	const [data, setData] = useState<any[]>([])
 
 	useEffect(() => {
-		setData(generateData())
-	}, [])
+		const sorted = historicDate.sort(
+			(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+		)
+		const formattedData = sorted.map(entry => {
+			const date = new Date(entry.date)
+			const formattedDate = date.toLocaleDateString('en-US', {
+				month: 'short',
+				day: 'numeric',
+			})
+
+			let chartData = {}
+
+			if (chartType === 'heartRate') {
+				chartData = {
+					date: formattedDate,
+					diastolic: entry.bloodPressure.diastolic,
+					systolic: entry.bloodPressure.systolic,
+					heartRate: entry.heartRate,
+				}
+			} else if (chartType === 'weight') {
+				chartData = {
+					date: formattedDate,
+					weight: entry.weight,
+				}
+			} else if (chartType === 'waterIntake') {
+				chartData = {
+					date: formattedDate,
+					waterIntake: entry.waterIntake,
+					sleepHours: entry.sleepHours,
+				}
+			} else if (chartType === 'steps') {
+				chartData = {
+					date: formattedDate,
+					steps: entry.steps,
+				}
+			}
+
+			return chartData
+		})
+
+		setData(formattedData)
+	}, [chartType])
 
 	return (
 		<div className='h-[300px] w-full'>
-			<ResponsiveContainer width='100%' height='100%'>
+			<ResponsiveContainer width='100%' height='100%' className='!p-0 m-0'>
 				<LineChart
 					data={data}
 					margin={{
@@ -108,11 +132,19 @@ export function HealthMetricsChart() {
 					/>
 					<Line
 						type='monotone'
-						dataKey='bloodPressure'
-						stroke='#3b82f6'
+						dataKey='diastolic'
+						stroke='#2b7fff'
 						strokeWidth={2}
 						dot={false}
-						activeDot={{ r: 6, style: { fill: '#3b82f6', opacity: 0.8 } }}
+						activeDot={{ r: 6, style: { fill: '#2b7fff', opacity: 0.8 } }}
+					/>
+					<Line
+						type='monotone'
+						dataKey='systolic'
+						stroke='#efb100'
+						strokeWidth={2}
+						dot={false}
+						activeDot={{ r: 6, style: { fill: '#efb100', opacity: 0.8 } }}
 					/>
 					<Line
 						type='monotone'
@@ -121,6 +153,30 @@ export function HealthMetricsChart() {
 						strokeWidth={2}
 						dot={false}
 						activeDot={{ r: 6, style: { fill: '#10b981', opacity: 0.8 } }}
+					/>
+					<Line
+						type='monotone'
+						dataKey='waterIntake'
+						stroke='#74d4ff'
+						strokeWidth={2}
+						dot={false}
+						activeDot={{ r: 6, style: { fill: '#74d4ff', opacity: 0.8 } }}
+					/>
+					<Line
+						type='monotone'
+						dataKey='sleepHours'
+						stroke='#d08700'
+						strokeWidth={2}
+						dot={false}
+						activeDot={{ r: 6, style: { fill: '#d08700', opacity: 0.8 } }}
+					/>
+					<Line
+						type='monotone'
+						dataKey='steps'
+						stroke='#e5e7eb'
+						strokeWidth={2}
+						dot={false}
+						activeDot={{ r: 6, style: { fill: '#e5e7eb', opacity: 0.8 } }}
 					/>
 				</LineChart>
 			</ResponsiveContainer>
