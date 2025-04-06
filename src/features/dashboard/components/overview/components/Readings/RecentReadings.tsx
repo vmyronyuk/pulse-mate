@@ -1,72 +1,164 @@
 'use client'
 
+import { UserDto } from '@/features/dashboard/dtos/user.dto'
 import { Button } from '@/ui/button'
-import { Activity, Calendar, Heart, Weight } from 'lucide-react'
+import { Paragraph } from '@/ui/typography/Paragraph'
+import {
+	Activity,
+	Calendar,
+	Footprints,
+	GlassWater,
+	Heart,
+	Moon,
+	Weight,
+} from 'lucide-react'
+import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
-const recentReadings = [
-	{
-		id: 1,
-		date: 'Today, 9:41 AM',
-		type: 'Heart Rate',
-		value: '72 BPM',
-		icon: Heart,
-		iconColor: 'text-rose-500',
-	},
-	{
-		id: 2,
-		date: 'Today, 9:40 AM',
-		type: 'Blood Pressure',
-		value: '120/80 mmHg',
-		icon: Activity,
-		iconColor: 'text-blue-500',
-	},
-	{
-		id: 3,
-		date: 'Today, 9:39 AM',
-		type: 'Weight',
-		value: '165 lbs',
-		icon: Weight,
-		iconColor: 'text-green-500',
-	},
-	{
-		id: 4,
-		date: 'Yesterday, 8:25 PM',
-		type: 'Heart Rate',
-		value: '68 BPM',
-		icon: Heart,
-		iconColor: 'text-rose-500',
-	},
-	{
-		id: 5,
-		date: 'Yesterday, 8:24 PM',
-		type: 'Blood Pressure',
-		value: '118/78 mmHg',
-		icon: Activity,
-		iconColor: 'text-blue-500',
-	},
-]
+type RecentReadingsProps = {
+	historicData: UserDto['historic_health_data']
+	limit: number
+	isPage?: boolean
+}
 
-export function RecentReadings() {
+export function RecentReadings({
+	historicData,
+	limit,
+	isPage,
+}: RecentReadingsProps) {
+	const searchParams = useSearchParams()
+
+	const period = searchParams.get('period') || '30'
+
+	const filteredData = historicData.filter(reading => {
+		const readingDate = new Date(reading.date)
+		const currentDate = new Date()
+		const differenceInTime = currentDate.getTime() - readingDate.getTime()
+
+		const msInDay = 24 * 60 * 60 * 1000
+		const daysDifference = differenceInTime / msInDay
+
+		return daysDifference <= parseInt(period)
+	})
+
+	const sortedData = filteredData.sort(
+		(a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+	)
+
+	const limitedData = sortedData.slice(0, limit)
 	return (
 		<div className='space-y-3.5'>
-			{recentReadings.map(reading => (
-				<div key={reading.id} className='flex items-center gap-4'>
-					<div className={`rounded-full p-2 ${reading.iconColor} bg-muted`}>
-						<reading.icon className='h-4 w-4' />
+			{limitedData.map((reading, index) => (
+				<div key={index} className='space-y-2'>
+					<div
+						className={`flex items-center gap-1 ${
+							isPage ? 'text-sm' : 'text-xs'
+						} text-muted-foreground font-semibold`}
+					>
+						<Calendar className={`${isPage ? 'h-4 w-4' : 'h-3 w-3'}`} />
+						<span>{new Date(reading.date).toLocaleDateString()}</span>
 					</div>
-					<div className='flex-1 space-y-1'>
-						<p className='text-sm font-medium leading-none'>{reading.type}</p>
-						<p className='text-sm text-muted-foreground'>{reading.value}</p>
-					</div>
-					<div className='flex items-center gap-1 text-xs text-muted-foreground'>
-						<Calendar className='h-3 w-3' />
-						<span>{reading.date}</span>
-					</div>
+
+					{reading.weight && (
+						<div className='flex items-center gap-2'>
+							<Paragraph
+								className={`${isPage ? 'text-lg' : 'text-lg'} text-foreground`}
+							>
+								Weight: {reading.weight} kg
+							</Paragraph>
+							<Weight
+								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-green-500`}
+							/>
+						</div>
+					)}
+
+					{reading.waterIntake && (
+						<div className='flex items-center gap-2'>
+							<Paragraph
+								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
+							>
+								Water intake: {reading.waterIntake} L
+							</Paragraph>
+							<GlassWater
+								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-sky-300`}
+							/>
+						</div>
+					)}
+
+					{reading.steps && (
+						<div className='flex items-center gap-2'>
+							<Paragraph
+								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
+							>
+								Steps: {reading.steps}
+							</Paragraph>
+							<Footprints
+								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-gray-300`}
+							/>
+						</div>
+					)}
+
+					{reading.heartRate && (
+						<div className='flex items-center gap-2'>
+							<Paragraph
+								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
+							>
+								Heart rate: {reading.heartRate} bpm
+							</Paragraph>
+							<Heart
+								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-red-600`}
+							/>
+						</div>
+					)}
+
+					{reading.sleepHours && (
+						<div className='flex items-center gap-2'>
+							<Paragraph
+								className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
+							>
+								Sleep hours: {reading.sleepHours}
+							</Paragraph>
+							<Moon
+								className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-yellow-500`}
+							/>
+						</div>
+					)}
+
+					{reading.bloodPressure.systolic &&
+						reading.bloodPressure.diastolic && (
+							<div className='flex items-center gap-2'>
+								<Paragraph
+									className={`${
+										isPage ? 'text-lg' : 'text-sm'
+									} text-foreground`}
+								>
+									Blood pressure: {reading.bloodPressure.systolic}/
+									{reading.bloodPressure.diastolic} mmHg
+								</Paragraph>
+								<Activity
+									className={`${isPage ? 'h-5 w-5' : 'h-4 w-4'} text-blue-500`}
+								/>
+							</div>
+						)}
+
+					{reading.notes && isPage && (
+						<Paragraph
+							className={`${isPage ? 'text-lg' : 'text-sm'} text-foreground`}
+						>
+							{reading.notes}
+						</Paragraph>
+					)}
+					<div className='border-t my-2'></div>
 				</div>
 			))}
-			<Button variant={'outline'} className='w-full'>
-				View all readings
-			</Button>
+
+			{historicData.length > limit && (
+				<Link href='/dashboard/readings' passHref>
+					<Button variant='outline' className='w-full'>
+						View all readings
+					</Button>
+				</Link>
+			)}
 		</div>
 	)
 }
