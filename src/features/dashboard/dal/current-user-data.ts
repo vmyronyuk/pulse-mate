@@ -21,7 +21,6 @@ export const getCurrentUserData = async (): Promise<UserDto | null> => {
 
 	if (error) {
 		console.error('Error fetching user data:', error)
-		throw new Error('Failed to fetch user data')
 	}
 
 	if (data) {

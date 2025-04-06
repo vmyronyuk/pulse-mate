@@ -18,5 +18,5 @@ export async function signinAction(dto: SigninDto) {
 		password: data.password,
 	})
 
-	redirect('/dashboard')
+	redirect('/dashboard/1')
 }
